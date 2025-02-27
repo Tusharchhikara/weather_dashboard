@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Dashboard</title>
+    <style>
+        body {
+            font-family:sans-serif;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 10px;
+            text-align: center;
+        }
+        input, button {
+            padding: 10px;
+            margin: 5px;
+            width: 90%;
+        }
+        .weather-box, .forecast-box {
+            border: 1px solid #dfdfdf;
+            padding: 10px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Weather Dashboard</h2>
+    
+    <form method="GET" action="">
+        <input type="text" name="city" placeholder="Enter city name" required value="{{ city }}">
+        <button type="submit">Get Weather</button>
+    </form>
+
+    {% if weather %}
+    <div class="weather-box">
+        <h3>Weather in {{ weather.name }}</h3>
+        <p>Temperature: {{ weather.main.temp }}°C</p>
+        <p>Condition: {{ weather.weather.0.description|title }}</p>
+        <p>Humidity: {{ weather.main.humidity }}%</p>
+    </div>
+
+    <h3>5-Day Forecast</h3>
+    {% for item in forecast %}
+    <div class="forecast-box">
+        <p><strong>{{ item.dt_txt|slice:":10" }}</strong></p>
+        <p>Temp: {{ item.main.temp }}°C</p>
+        <p>{{ item.weather.0.description|title }}</p>
+    </div>
+    {% endfor %}
+    
+
+    {% elif city %}
+    <p style="color: red;">City not found. Please try again.</p>
+    {% endif %}
+
+</body>
+</html>
